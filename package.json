@@ -1,0 +1,23 @@
+{
+  "name": "blog-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MissyM2/blog-api.git"
+  },
+  "author": "Missy Maloney",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MissyM2/blog-api/issues"
+  },
+  "homepage": "https://github.com/MissyM2/blog-api#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongoose": "^5.4.0"
+  }
+}
