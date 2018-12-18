@@ -24,6 +24,7 @@ blogpostSchema.virtual("authorName").get(function() {
 
 blogpostSchema.methods.serialize = function() {
     return {
+        id:this._id,
         title: this.title,
         content: this.content,
         author: this.author,
@@ -31,6 +32,6 @@ blogpostSchema.methods.serialize = function() {
     };
 };
 
-const Blogpost = mongoose.model("Blogpost", blogpostSchema);
+const Blogposts = mongoose.model("Blogposts", blogpostSchema);
 
-module.exports = {Blogpost};
+module.exports = {Blogposts};
