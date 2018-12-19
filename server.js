@@ -74,18 +74,19 @@ app.put("/blogposts/:id", (req, res) => {
     }
 
     const toUpdate = {};
-    const updateableFields = ["title"];
+    const updateableFields = ["title", "author", "content"];
 
     updateableFields.forEach(field => {
         if (field in req.body) {
             toUpdate[field] = req.body[field];
         }
     });
+    console.log("toUpdate = ", JSON.stringify(toUpdate));
 
     Blogposts
       .findByIdAndUpdate(req.params.id, {$set: toUpdate})
       .then(blogposts => res.status(204).end())
-      .catch(err => res.status(500).json({message: 'Internal server error'}));
+      .catch(err => res.status(500).json({message: 'Internal server error'}));//
 });
 
 
@@ -101,6 +102,7 @@ let server;
 
 function runServer(databaseUrl, port=PORT) {
     return new Promise((resolve, reject) => {
+        //mongoose.set('debug', true);
         mongoose.connect(
             databaseUrl,
             err => {
