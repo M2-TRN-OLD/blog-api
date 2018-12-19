@@ -12,11 +12,14 @@ const authorSchema = mongoose.Schema({
     }
 });
 
+const commentSchema = mongoose.Schema({content: 'string'});
+
 // this is our schema to represent a blogpost
 const blogpostSchema = mongoose.Schema({
     title: String,
     content: String,
     author: {type: mongoose.Schema.Types.ObjectId, ref:'Author'},
+    comments: [commentSchema],
     created:{
         type: Date,
         // `Date.now()` returns the current unix timestamp as a number
@@ -45,7 +48,8 @@ blogpostSchema.methods.serialize = function() {
         title: this.title,
         content: this.content,
         author: this.authorName,
-        created: this.created
+        created: this.created,
+        comments: this.comments
     };
 };
 
