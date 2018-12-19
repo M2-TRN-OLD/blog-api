@@ -16,6 +16,7 @@ app.use(express.json());
 app.get('/blogposts', (req, res) => {
     Blogposts
      .find()
+     .populate('author')
      .then(blogposts => {
           res.json({
               blogposts: blogposts.map(blogpost => blogpost.serialize())
@@ -41,7 +42,7 @@ app.get("/blogposts/:id", (req, res) => {
 
 // POST request
 app.post('/blogposts',(req,res) => {
-    const requiredFields = ['title','author', 'content'];
+    const requiredFields = ['title','author', 'author_id'];
     for (let i=0; i < requiredFields.length; i++) {
         const field = requiredFields[i];
         if (!(field in req.body)) {
@@ -51,15 +52,31 @@ app.post('/blogposts',(req,res) => {
         }
     }
 
-    Blogposts.create({
-        title: req.body.title,
-        author: req.body.author,
-        content: req.body.content
-    })
-      .then(blogpost => res.status(201).json(blogpost.serialize()))
+    Author
+      .findById(req.body.author_id)
+      .then(author => {
+          if (author) {
+            Blogposts
+              .create({
+                title: req.body.title,
+                author: req.body.author,
+                content: req.body.content
+            })
+              .then(blogpost => res.status(201).json(blogpost.serialize()))
+              .catch(err => {
+                  console.error(err)
+                  res.status(500).json({message: 'Internal server error'});
+              });
+          }
+          else {
+              const message = 'AUthor not found';
+              console.error(message);
+              return res.status(400).send(message);
+          }
+      })
       .catch(err => {
-          console.error(err)
-          res.status(500).json({message: 'Internal server error'});
+          console.error(err);
+          res.status(500).json({error: 'internal server error'});
       });
 });
 
