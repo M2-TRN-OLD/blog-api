@@ -44,16 +44,16 @@ blogpostSchema.virtual("authorName").get(function() {
 
 blogpostSchema.methods.serialize = function() {
     return {
-        //id:this._id,
-        title: this.title,
+        id:this._id,
+        author: this.firstName,
         content: this.content,
-        author: this.authorName,
+        title: this.title,
         created: this.created,
         comments: this.comments
     };
 };
 
-const Blogposts = mongoose.model("Blogposts", blogpostSchema);
+const BlogPost = mongoose.model("Blogpost", blogpostSchema);
 const Author =  mongoose.model('Author', authorSchema);
 
-module.exports = {Blogposts};
+module.exports = {BlogPost, Author};
