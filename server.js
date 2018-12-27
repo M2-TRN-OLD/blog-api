@@ -187,7 +187,7 @@ app.post('/blogposts',(req,res) => {
             BlogPost
               .create({
                 title: req.body.title,
-                author: req.body.author,
+                author: req.body.author_id,
                 content: req.body.content
             })
               .then(blogpost => res.status(201).json({
